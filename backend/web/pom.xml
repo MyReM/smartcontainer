@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>backend</artifactId>
+        <groupId>com.zsf</groupId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>web</artifactId>
+
+    <name>web</name>
+    <packaging>${packaging}</packaging>
+    <description>web模块</description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.zsf</groupId>
+            <artifactId>core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zsf</groupId>
+            <artifactId>container</artifactId>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.usb4java</groupId>-->
+            <!--<artifactId>usb4java-javax</artifactId>-->
+            <!--<version>1.2.0</version>-->
+        <!--</dependency>-->
+
+    </dependencies>
+
+    <build>
+        <finalName>web</finalName>
+
+        <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>application*.properties</exclude>
+                    <exclude>logback*.xml</exclude>
+                </excludes>
+            </resource>
+
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>application.properties</include>
+                    <include>application-${profiles.active}.properties</include>
+                    <include>logback-${profiles.active}.xml</include>
+                </includes>
+            </resource>
+        </resources>
+        <testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
+        <testResources>
+            <testResource>
+                <directory>${basedir}/src/test/resources</directory>
+            </testResource>
+        </testResources>
+
+        <plugins>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+
+                <configuration>
+                    <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>com.zsf.Application</mainClass>
+                    <layout>ZIP</layout>
+
+                    <!-- 没有该配置，devtools 不生效 -->
+                    <fork>true</fork>
+
+                    <addResources>true</addResources>
+                    <includeSystemScope>true</includeSystemScope>
+
+                    <!--<includes>-->
+                        <!--<include>-->
+                            <!--<groupId>nothing</groupId>-->
+                            <!--<artifactId>nothing</artifactId>-->
+                        <!--</include>-->
+
+                        <!--<include>-->
+                            <!--<groupId>com.zsf</groupId>-->
+                            <!--<artifactId>common</artifactId>-->
+                        <!--</include>-->
+
+                        <!--<include>-->
+                            <!--<groupId>com.zsf</groupId>-->
+                            <!--<artifactId>core</artifactId>-->
+                        <!--</include>-->
+
+                        <!--<include>-->
+                            <!--<groupId>com.zsf</groupId>-->
+                            <!--<artifactId>print</artifactId>-->
+                        <!--</include>-->
+
+                    <!--</includes>-->
+
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--由于scope=system,默认并不会将Jar包打进war包中，所有需要通过插件进行打包-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <includeScope>runtime</includeScope>
+                            <excludeGroupIds>com.zsf</excludeGroupIds>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <warName>${project.build.finalName}</warName>
+                    <archiveClasses>true</archiveClasses>
+                    <attachClasses>true</attachClasses>
+                    <webResources>
+
+                        <resource>
+                            <directory>src/main/resource</directory>
+                            <targetPath>WEB-INF/classes</targetPath>
+                            <filtering>true</filtering>
+                        </resource>
+
+                    </webResources>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+</project>
