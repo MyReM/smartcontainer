@@ -24,70 +24,46 @@ public class GetOutRFID {
         }
     };
 
-    public List<CommoditiesCode> operateRFID(List<String> list) {
+    private void operateRFID(List<String> list) {
 
         // 获取CommoditiesCodeServiceImpl bean
         CommoditiesCodeServiceImpl commoditiesCodeService = SpringUtils.getBean(CommoditiesCodeServiceImpl.class);
 //        // 查询数据库标签集合并验证
         List<CommoditiesCode> commoditiesCodeList = commoditiesCodeService.findAll();
+        // 对比数据库，若扫描到则为已拿出，修改状态
         for (CommoditiesCode cm : commoditiesCodeList) {
             boolean bl = false;
             if (list.size() > 0) {
                 for (String str : list) {
                     if (cm != null) {
                         if (cm.getCommoditiesCode().equals(str)) {
-                            // 数据吻合，设置状态为1（未拿走）
-//                            cm.setSearchCount(cm.getSearchCount() + 1);
                             bl = true;
                             break;
                         }
                     }
                 }
             }
+            // bl=true为扫描有结果（拿出），为false则扫描不到该条码（放回）
+            // 并且根据bl判断是否执行数据库操作
             if (bl) {
+                // 状态不等于0，修改状态，等于0不作处理并把bl设置为fale
                 if (cm.getIsIn() != 0) {
                     cm.setIsIn(0);
                 } else {
                     bl = false;
                 }
             } else {
+                // 状态不等于1，修改状态，等于1不作处理并把bl设置为true
                 if (cm.getIsIn() != 1) {
                     cm.setIsIn(1);
                     bl = true;
                 }
             }
+            // 结有变，需要执行数据库操作
             if (bl) {
                 commoditiesCodeService.save(cm);
             }
-            // 如果扫描次数大于3次则未拿出
-            // cm.getReserve3() // 扫描次数
-//                    if (cm.getSearchCount() > 0) {
-//                        // 拿出商品是否显示状态
-//                        cm.setIsIn(1);
-//                        // 商品是否在库状态
-//                        cm.setReserve1(1);
-//                        // 拿出商品每次扫面不到统计次数
-//                        cm.setReserve2(0);
-//                        // 每次扫描到商品的统计次数
-//                        cm.setSearchCount(0);
-//                    } else if (cm.getReserve3() > 1 && cm.getSearchCount() <1){
-//                        cm.setIsIn(0);
-//                        cm.setReserve1(0);
-//                        // 预留字段，现改为统计不在库次数，达到一定次数不跳转页面
-//                        cm.setReserve2(cm.getReserve2() + 1);
-//                    }
-//                    // 如果拿出商品扫描六次还没放回去设置拿出商品显示状态为1（不显示）
-//                    if (cm.getReserve2() > 1) {
-//                        cm.setIsIn(1);
-//                    }
-//                    if (cm.getReserve3() > 3) {
-//                        cm.setReserve3(0);
-//                    }
-//                }
-//                cm.setReserve3(cm.getReserve3()+1);
-
         }
-        return commoditiesCodeService.findAll();
     }
 
     public void openRFID() {

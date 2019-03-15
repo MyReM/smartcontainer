@@ -72,8 +72,6 @@ public class RfidController extends BaseController {
 
     @GetMapping("/openRFID")
     public void openRFID(){
-
-        GetOutRFID getOutRFID = new GetOutRFID();
         getOutRFID.openRFID();
         getOutRFID.inventory();
     }

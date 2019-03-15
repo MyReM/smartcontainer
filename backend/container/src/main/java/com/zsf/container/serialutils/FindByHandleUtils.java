@@ -58,7 +58,7 @@ public class FindByHandleUtils {
         } catch (InterruptedException e) {
             saveNfc.setNfc("读取失败");
         }
-        return saveNfc.getNfc().equals("读取失败") ? "读取失败" : saveNfc.getNfc().substring(20,34);
+        return (saveNfc.getNfc() == null || saveNfc.getNfc().equals("读取失败")) ? "读取失败" : saveNfc.getNfc().substring(20,34);
     }
     public static void main(String args[]) {
         FindByHandleUtils findByHandleUtils = new FindByHandleUtils();

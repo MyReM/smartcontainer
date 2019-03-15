@@ -31,13 +31,11 @@ public class CommoditiesCode {
 
     private Integer isIn; // 是否在库
 
-    private Integer searchCount; // 判断是否拿出去过，显示一次后无论是否归还，不再显示
+    private String reserve1; // 原预留1
 
-    private Integer reserve1; // 原预留1,现改为是否在库
+    private String reserve2; // 预留字段
 
-    private Integer reserve2; // 预留字段,现改为统计不在库次数，达到一定次数修改状态
-
-    private Integer reserve3; // 预留字段,现改为统计扫描次数
+    private String reserve3; // 预留字段
 
     private String reserve4; // 预留字段
 }

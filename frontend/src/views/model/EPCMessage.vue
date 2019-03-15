@@ -101,6 +101,7 @@
 
 <script>
 import { antiFake, getPages, addAntiFake, updateAntiFake, deleteAntiFake, getAllAntiType, getSerial, openNFC, searchNFC, closeNFC } from '@/api/antiFake'
+import { setTimeout } from 'timers'
 export default {
   data() {
     return {

@@ -41,7 +41,7 @@ public class CommoditiesCodeServiceImpl extends BaseServiceImpl<CommoditiesCode,
     public Integer countByTypeAndIsInOrType(Integer type, Integer isIn) {
         CommoditiesCode commoditiesCode = new CommoditiesCode();
         if (isIn != null) {
-            commoditiesCode.setReserve1(isIn);
+            commoditiesCode.setIsIn(isIn);
         }
         if (type != null) {
             commoditiesCode.setCommoditiesType(type);

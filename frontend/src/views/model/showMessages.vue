@@ -1,5 +1,5 @@
 <template>
-<div>
+<div id="second-div">
   <!-- <div class="backTim" :style="bacol">{{backTim}}</div> -->
   <div v-if="allDataLength !== 4 && allDataLength !== 0 && allDataLength !== null" class="allH"> 
     <el-row :gutter="20" type="flex" justify="center" >
@@ -22,7 +22,7 @@
 .imgOutDiv{
   /* border-radius: 50%; */
 }
-  .allH{
+  #second-div .allH{
     font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
     height: 100vh;
     width: 100vw;
@@ -32,27 +32,27 @@
     justify-content:center;
     align-items:center;
   }
-  .allColStyle{
+  #second-div .allColStyle{
     border-radius: 20px;
     border: 1px solid black;
     background-color: #e5e9f2;
   }
-  .leftStyle{
+  #second-div .leftStyle{
     width: 100%;
     height: 100%;
   }
- .rightStyle{
+ #second-div .rightStyle{
     margin-left: 20px;
     margin-top: 50px;
   }
-  .shortStyle{
+  #second-div .shortStyle{
     line-height: 300%;
    
     /* white-space: nowrap;
 		text-overflow: ellipsis;
 		overflow: hidden; */
   }
-  .lengthStyle{
+  #second-div .lengthStyle{
     line-height: 200%;
     margin-left: 20px;
     margin-top: 50px;
@@ -60,24 +60,24 @@
     overflow-x: hidden;
     overflow-y: scroll;
   }
-  .lengthStyle::-webkit-scrollbar{
+  #second-div .lengthStyle::-webkit-scrollbar{
     display: none;
   }
-  .tipStyle{
+  #second-div .tipStyle{
     font-size: 18px;
   }
-  .infoStyle{
+  #second-div .infoStyle{
     font-size: 	14px;
   }
-  .yella{
+  #second-div .yella{
     background: yellow;
   }
-  img{
+  #second-div img{
     height: 100%;
     width: 100%;
     padding: 1%;
   }
-  .amountStyle{
+  #second-div .amountStyle{
     position: relative;
     height: 50px;
     width: 50px;
@@ -91,7 +91,7 @@
     opacity:0.7;
     z-index: 999; 
   }
-  .backTim {
+  #second-div .backTim {
     position:absolute;
     right:1%;
     top:1%;
@@ -152,34 +152,11 @@ export default{
     this.setim = setTimeout(() => {
       this.sint = setInterval(() => {
         this.getNonIn()
-        // this.showData()
-        // if (this.searchCount <= 0) {
-        //   --this.backTim
-        // } else {
-        //   this.backTim = 8
-        // }
-        // --this.backTim
-        // switch (this.backTim) {
-        //   case 7 : this.bacol = 'background-color:rgba(167, 72, 211)'
-        //     break
-        //   case 6 : this.bacol = 'background-color:rgba(137, 172, 211)'
-        //     break
-        //   case 5 : this.bacol = 'background-color:rgba(137, 72, 141)'
-        //     break
-        //   case 4 : this.bacol = 'background-color:rgba(137, 172, 11)'
-        //     break
-        //   case 3 : this.bacol = 'background-color:rgba(157, 12, 241)'
-        //     break
-        //   case 2 : this.bacol = 'background-color:rgba(187, 122, 211)'
-        //     break
-        //   case 1 : this.bacol = 'background-color:rgba(127, 122, 121)'
-        //     break
-        // }
         if (this.searchCount === 0) {
           setTimeout(() => {
             if (this.searchCount === 0) {
               clearInterval(this.sint)
-              this.$router.push('/showMessage')
+              // this.$router.push('/showMessage')
             }
           }, 100)
         }
